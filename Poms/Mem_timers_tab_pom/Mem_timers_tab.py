@@ -1,18 +1,18 @@
 from playwright.sync_api import Page
 
-from Poms.Mem_timers_pom.timers.Command_mem_timer_block import CommandMemTimerBlock
+from Poms.Mem_timers_tab_pom.Blocks.Brightness_mem_timer_block import BrightnessMemTimerBlock
+from Poms.Mem_timers_tab_pom.Blocks.Command_mem_timer_block import CommandMemTimerBlock
+from Poms.Mem_timers_tab_pom.Blocks.OnOff_mem_timer_block import OnOffMemTimerBlock
 
 
-class MemTimerTab:
+class MemTimersTab:
     def __init__(self, page: Page):
         self.page = page
 
         self.root = page.locator("#memTimersContainer")
         self.memTimers_root = self.root.locator("#memTimers")
 
-        self.reload_button = self.root.locator(
-            'button[onclick="loadTimers()"]'
-        )
+        self.reload_button = self.root.get_by_role("button", name="🗘")
 
     def reload(self):
         self.reload_button.click()

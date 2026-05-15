@@ -1,5 +1,5 @@
 from playwright.sync_api import expect
-from Poms.Mem_timers_pom.timers.Mem_timer_block_base import MemTimerBlockBase
+from Poms.Mem_timers_tab_pom.Blocks.Mem_timer_block_base import MemTimerBlockBase
 
 
 class BrightnessMemTimerBlock(MemTimerBlockBase):
