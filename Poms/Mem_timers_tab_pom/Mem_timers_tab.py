@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 from Poms.Mem_timers_tab_pom.Blocks.Brightness_mem_timer_block import BrightnessMemTimerBlock
 from Poms.Mem_timers_tab_pom.Blocks.Command_mem_timer_block import CommandMemTimerBlock
@@ -6,20 +6,19 @@ from Poms.Mem_timers_tab_pom.Blocks.OnOff_mem_timer_block import OnOffMemTimerBl
 
 
 class MemTimersTab:
-    def __init__(self, page: Page):
-        self.page = page
+    def __init__(self, root):
 
-        self.root = page.locator("#memTimersContainer")
-        self.memTimers_root = self.root.locator("#memTimers")
+        self._root = root
+        self._memTimers_root = self._root.locator("#memTimers")
 
-        self.reload_button = self.root.get_by_role("button", name="🗘")
+        self._reload_button = self._root.get_by_role("button", name="🗘")
 
     def reload(self):
-        self.reload_button.click()
+        self._reload_button.click()
 
     def timer_root(self, name: str):
-        return self.memTimers_root.locator(".mem-timer-block").filter(
-            has=self.page.locator("p.name", has_text=name)
+        return self._memTimers_root.locator(".mem-timer-block").filter(
+            has=self._root.locator("p.name", has_text=name)
         )
 
     def command_timer(self):
@@ -30,3 +29,9 @@ class MemTimersTab:
 
     def on_off_timer(self):
         return OnOffMemTimerBlock(self.timer_root("OnOff timer"))
+
+    def expect_visible(self):
+        expect(self._root).to_be_visible()
+
+    def expect_hidden(self):
+        expect(self._root).to_be_hidden()

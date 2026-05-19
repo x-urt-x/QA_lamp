@@ -6,19 +6,19 @@ class CommandActiveTimerBlock(ActiveTimerBlockBase):
     def __init__(self, root):
         super().__init__(root)
 
-        self.once_checkbox = root.locator(
+        self._once_checkbox = root.locator(
             'input[name="once"]'
         )
 
-        self.command_input = root.locator(
+        self._command_input = root.locator(
             'input[name="command"]'
         )
 
     def expect_once(self, state: bool):
         if state:
-            expect(self.once_checkbox).to_be_checked()
+            expect(self._once_checkbox).to_be_checked()
         else:
-            expect(self.once_checkbox).not_to_be_checked()
+            expect(self._once_checkbox).not_to_be_checked()
 
     def expect_command(self, value: str):
-        expect(self.command_input).to_have_value(value)
+        expect(self._command_input).to_have_value(value)
