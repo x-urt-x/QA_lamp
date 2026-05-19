@@ -1,3 +1,5 @@
+import time
+
 from Poms.Active_timers_tab_pom.Active_timers_tab import ActiveTimersTab
 from Poms.Create_timer_tab_pom.Create_timer_tab import CreateTimerTab
 from Poms.Effect_option_tab_pom.Effect_option_tab import EffectOptionTab
@@ -8,6 +10,8 @@ from Poms.Static_fields import StaticFields
 class MainPage:
     _SUBMIT_ENDPOINT = "**/submit"
     _URL = "http://192.168.1.42/"
+    _GET_EFFECT_OPTION_ENDPOINT = "**/get-effect-option"
+
     def __init__(self, page):
         self._page = page
 
@@ -52,6 +56,32 @@ class MainPage:
 
         self.static_fields = StaticFields(page)
 
+        self.effect_option_data = None
+        self.max_brightness = None
+        self.current_effect = None
+
+        self._page.on(
+            "response",
+            self._handle_response
+        )
+
+    def _handle_response(self, response):
+        if "/get-effect-option" not in response.url:
+            return
+
+        try:
+            data = response.json()
+
+            self.effect_option_data = data
+
+            static_fields = data["staticFields"]
+
+            self.max_brightness = static_fields["maxBr"]
+            self.current_effect = static_fields["name"]
+
+        except Exception:
+            pass
+
     def open_page(self, retries: int = 3):
         for attempt in range(retries):
             try:
@@ -75,6 +105,17 @@ class MainPage:
                 self._page.reload()
                 self._page.wait_for_timeout(1000)
 
+    def wait_effect_option_data(self, timeout_ms: int = 5000):
+        start = time.monotonic()
+
+        while self.effect_option_data is None:
+            if (time.monotonic() - start) * 1000 > timeout_ms:
+                raise TimeoutError(
+                    "effect_option_data was not loaded"
+                )
+
+            self._page.wait_for_timeout(50)
+
     def send_command(self, command: str):
         self._command_console_input.fill(command)
         self._send_command_button.click()
@@ -92,4 +133,4 @@ class MainPage:
         self._create_timer_tab_button.click()
 
     def expect_submit_request(self):
-        return self._page.expect_request(self._SUBMIT_ENDPOINT)
+        return self._page.expect_request(self._SUBMIT_ENDPOINT, timeout=1000)

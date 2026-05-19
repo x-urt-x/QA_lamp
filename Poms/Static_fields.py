@@ -27,16 +27,18 @@ class StaticFields:
 
         self._apply_and_save_button = root.get_by_role(
             "button",
-            name="apply & save"
+            name="apply & save",
+            exact=True
         )
 
         self._apply_button = root.get_by_role(
             "button",
-            name="apply"
+            name="apply",
+            exact = True
         )
 
     def set_state(self, state: bool):
-        self._state_toggle_checkbox.set_checked(state)
+        self._state_toggle_checkbox.set_checked(state, force=True)
 
     def expect_state(self, state: bool):
         if state:
@@ -46,6 +48,7 @@ class StaticFields:
 
     def set_brightness(self, value: int):
         self._brightness_input.fill(str(value))
+        self._brightness_input.press("Enter")
 
     def expect_brightness(self, value: int):
         expect(
@@ -53,7 +56,7 @@ class StaticFields:
         ).to_have_value(str(value))
 
     def set_udp(self, state: bool):
-        self._udp_checkbox.set_checked(state)
+        self._udp_checkbox.set_checked(state, force=True)
 
     def expect_udp(self, state: bool):
         if state:
