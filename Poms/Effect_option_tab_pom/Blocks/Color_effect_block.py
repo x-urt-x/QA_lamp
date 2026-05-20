@@ -14,7 +14,7 @@ class ColorEffectBlock:
         )
 
     def set_auto_send(self, state: bool):
-        self._auto_send_checkbox.set_checked(state)
+        self._auto_send_checkbox.set_checked(state, force=True)
 
     def set_color(self, index: int, value: str):
         self._color_inputs.nth(index).fill(value)

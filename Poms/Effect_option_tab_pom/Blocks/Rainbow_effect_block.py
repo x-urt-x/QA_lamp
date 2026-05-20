@@ -18,7 +18,7 @@ class RainbowEffectBlock:
         )
 
     def set_auto_send(self, state: bool):
-        self._auto_send_checkbox.set_checked(state)
+        self._auto_send_checkbox.set_checked(state, force=True)
 
     def set_rainbow_enabled(self, index: int, state: bool):
         self._rainbow_enable_checkboxes.nth(index).set_checked(state)

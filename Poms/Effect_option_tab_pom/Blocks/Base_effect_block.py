@@ -20,7 +20,7 @@ class BaseEffectBlock:
         )
 
     def set_auto_send(self, state: bool):
-        self._auto_send_checkbox.set_checked(state)
+        self._auto_send_checkbox.set_checked(state, force=True)
 
     def set_delay(self, value: int):
         self._delay_input.fill(str(value))

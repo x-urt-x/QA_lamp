@@ -7,8 +7,9 @@ from Poms.Effect_option_tab_pom.Blocks.Rainbow_effect_block import RainbowEffect
 
 
 class EffectOptionTab:
-    def __init__(self, root):
+    def __init__(self, root, page):
 
+        self._page = page
         self._root = root
         self._currentEffect_root = self._root.locator("#currentEffect")
 
@@ -35,7 +36,7 @@ class EffectOptionTab:
 
     def block_root(self, name: str):
         return self._currentEffect_root.locator(".effect-block").filter(
-            has=self._root.locator("p.name", has_text=name)
+            has=self._page.locator("p.name", has_text=name)
         )
 
     def base_block(self):

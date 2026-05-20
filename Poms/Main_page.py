@@ -49,7 +49,7 @@ class MainPage:
         self._activeTimerContainer = page.locator("#activeTimersContainer")
         self._createTimerContainer = page.locator("#createTimerContainer")
 
-        self.effect_option_tab = EffectOptionTab(self._effectOptionContainer)
+        self.effect_option_tab = EffectOptionTab(self._effectOptionContainer, page)
         self.mem_timer_tab = MemTimersTab(self._memTimerContainer)
         self.active_timer_tab = ActiveTimersTab(self._activeTimerContainer)
         self.create_timer_tab = CreateTimerTab(self._createTimerContainer)
